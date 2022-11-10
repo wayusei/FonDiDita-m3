@@ -158,7 +158,8 @@ Representa un problema de malas prácticas al no utilizar el patrón de diseño 
 - Sergio Monterrubio
 - Ángel Pimentel
 - Rodrigo Rosas
+- Julio Alberto Hernández
 
-## Visitar la app en Heroku: [Fondidita](https://fondidita.herokuapp.com/)
+## Visitar la app en Railway: [Fondidita-m3](enlace...)
 
 
