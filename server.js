@@ -5,6 +5,10 @@ const cors = require('cors');
 const sequelize = require('./config/db');
 const routes = require('./routes/index');
 
+const swaggerOptions = require('./config/swagger');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI =require('swagger-ui-express');
+
 const app = express();
 
 app.use(helmet());
@@ -18,6 +22,9 @@ app.get('/', (request, response) => {
 })
 
 app.use('/', routes);
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 try {
     sequelize.authenticate();
