@@ -198,7 +198,7 @@ router.get('/:id', getProduct);
  *                      message:
  *                          type: string
  */
- router.post('/', createProduct);
+ router.post('/', authentication, createProduct);
 // router.post('/', auth.required, createProduct);
 
 /**
@@ -279,7 +279,7 @@ router.get('/:id', getProduct);
  *                 message:
  *                   type: string
  */
-router.patch('/:id', updateProduct);
+router.patch('/:id', authentication, updateProduct);
 
 /**
  * @openapi
@@ -329,6 +329,6 @@ router.patch('/:id', updateProduct);
  *                 message:
  *                   type: string
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id', authentication, deleteProduct);
 
 module.exports = router;

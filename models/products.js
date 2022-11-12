@@ -1,8 +1,4 @@
 const { Sequelize, DataTypes } = require('sequelize');
-/* const sequelize = require('../config/db');
-const Orders_Details = require('./orders_details');
-const Sellers = require('./sellers'); */
-
 
 module.exports = (sequelize) => sequelize.define('products', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },

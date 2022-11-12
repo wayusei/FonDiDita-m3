@@ -1,4 +1,3 @@
-const Sellers = require('../models/sellers');
 const sequelize = require('../config/db');
 const jwt = require('jsonwebtoken');
 
