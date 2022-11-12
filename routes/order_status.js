@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getOrderStatus, getOrderStatusById, createOrderStatus, updateOrderStatus, deleteOrderStatus } = require('../controllers/order_status')
+const { getOrderStatus, getOrderStatusById, updateOrderStatus,deleteOrderStatus } = require('../controllers/order_status')
 
 /**
  * @openapi
@@ -77,57 +77,6 @@ router.get('/', getOrderStatus);
 
 /**
  * @openapi
- * '/order_status':
- *  post:
- *     tags:
- *     - Order Status
- *     summary: Crea un nuevo estatus de orden.
- *     description: Crea un nuevo estatus de orden en la BBDD. 
- *     requestBody:
- *       required: true
- *       content:
- *          application/json:
- *            schema:
- *              type: object
- *              required:
- *                      -id
- *                      -status
- *                      -description
- *              properties:
- *                      id:
- *                          type: number
- *                      status:
- *                          type: number
- *                      description:
- *                          type: string      
- *     responses:
- *      201:
- *        description: Se creo el estatus de orden exitosamente.
- *        content:
- *          application/json:
- *            schema:
- *              properties:
- *                      id:
- *                          type: number
- *                      status:
- *                          type: number
- *                      description:
- *                          type: string    
- *      500:
- *        description: Internal server error
- *        content:
- *          application/json:
- *           schema:
- *              properties:
- *                 message:
- *                   type: string
- *                 error:
- *                  type: string
- */
-router.post('/', createOrderStatus);
-
-/**
- * @openapi
  * '/order_status/{id}':
  *  patch:
  *     tags:
@@ -181,45 +130,5 @@ router.post('/', createOrderStatus);
  *                  type: string
  */
 router.patch('/:id', updateOrderStatus);
-
-/**
- * @openapi
- * '/order_status/{id}':
- *  delete:
- *     tags:
- *     - Order Status
- *     summary: Elimina el estatus de orden por id.
- *     description: Elimina el estatus de orden de la BD.
- *     parameters:
- *      - name: id
- *        in: path
- *        required: true
- *        description: Parametro en el path para eliminar el estatus de orden.
- *     requestBody:
- *        required: false
- *     responses:
- *      200:
- *        description: Se elimino la orden exitosamente.
- *        content:
- *          application/json:
- *            schema:
- *              properties:
- *                      id:
- *                          type: number
- *                      status:
- *                          type: number
- *                      description:
- *                          type: string    
- *      500:
- *        description: Error al eliminar el detalle de la orden
- *        content:
- *          application/json:
- *           schema:
- *              properties:
- *                 message:
- *                   type: string
- */
-
-router.delete('/:id', deleteOrderStatus);
 
 module.exports = router;

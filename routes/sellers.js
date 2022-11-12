@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getSellers, getSeller, createSeller, signUpSeller, logInSeller } = require('../controllers/sellers')
+const { getSellers, getSeller, createSeller, signUpSeller, logInSeller, deleteSeller } = require('../controllers/sellers')
 
 /**
  * @openapi
@@ -194,5 +194,6 @@ router.post('/signUpSeller', signUpSeller);
  */
 router.post('/logInSeller', logInSeller);
 
+router.delete('/:id', deleteSeller);
 
 module.exports = router;

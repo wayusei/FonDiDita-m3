@@ -1,5 +1,5 @@
 const OrderStatus = require('../models/order_status');
-
+const sequelize = require('../config/db');
 
 /**
  * Obtiene una lista de los estatus de orden
@@ -7,17 +7,9 @@ const OrderStatus = require('../models/order_status');
  * @param {*} res 
  */
 async function getOrderStatus(req, res) {
-    try {
-        const orderStatuses = await OrderStatus.findAll();
-        res.status(200).json(orderStatuses);
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: 'Internal server error',
-            error
-        })
-    }
+    return await sequelize.models.order_status.findAndCountAll()
+        .then(data => res.json(data))
+        .catch(err => res.json({ message: 'Error', data: err}));
 }
 
 /**
@@ -27,11 +19,11 @@ async function getOrderStatus(req, res) {
  */
 async function getOrderStatusById(req, res) {
     const id = req.params.id;
-    const orderStatus = await OrderStatus.findByPk(id);
+    const orderStatus = await sequelize.models.order_status.findOne({where: {id}});
     if (!orderStatus) {
         return res.status(404).json({ message: "Estatus de orden no encontrado" });
     }
-    res.status(200).json(orderStatus);
+    return res.status(200).json(orderStatus);
 }
 
 /**
@@ -40,16 +32,16 @@ async function getOrderStatusById(req, res) {
  * @param {*} res 
  */
 async function createOrderStatus(req, res) {
-
     const body = req.body;
-    await OrderStatus.create(body).then(orderStatus => {
-        res.status(201).json(orderStatus);
-    }).catch(function(error){
-        console.log(error);
-        res.status(500).json({
-            message: 'Internal server error'
-        })
+    if (body.status==null || body.description=="") {
+        return res.json({ message: 'Por favor llene todos los campos' });
+    }
+    const order_status = await sequelize.models.order_status.create({
+        status: body.status,
+        description: body.description
     });
+    await order_status.save();
+    return res.status(201).json({ data: order_status })
 }
 
 /**
@@ -58,24 +50,29 @@ async function createOrderStatus(req, res) {
  * @param {*} res 
  */
 async function updateOrderStatus(req, res) {
-    const id = req.params.id;
-    const orderStatus = req.body;
-    await OrderStatus.update(orderStatus, {where: {id}});
-    const orderStatus_updated = await OrderStatus.findByPk(id);
-    res.status(200).json(orderStatus_updated);
+    const { body, params: { id } } = req;
+    const order_status = await sequelize.models.order_status.findOne({ where: {id} });
+    if (!order_status) {
+        return res.status(404).json({ code:404, message: 'Estado de orden no encotrada' });
+    }
+    const updateStatus = await order_status.update({
+        status: body.status,
+        description: body.description
+    });
+    return res.json({ data: updateStatus });
 }
 
 /**
- * Función que nos permite eliminar una categoria por id
+ * Función que nos permite eliminar un stado de order por id
  * @param {*} req 
  * @param {*} res 
  */
 async function deleteOrderStatus(req, res) {
     const id = req.params.id;
-    const deletedOrderStatus = OrderStatus.destroy(
+    const deletedOrderStatus = await sequelize.models.order_status.destroy(
         {where: {id} }
     );
-    res.status(200).json(deletedOrderStatus);
+    return res.status(200).json(deletedOrderStatus);
 }
 
 module.exports = { getOrderStatus, getOrderStatusById, createOrderStatus, updateOrderStatus, deleteOrderStatus };

@@ -79,6 +79,9 @@ async function signUpSeller(req, res) {
         if(seller){
             return res.status(400).json({ message: 'Email ya registrado'});
         } else {
+            if (body.username=="" || body.email=="" || body.password=="" || body.full_name=="" || body.account=="") {
+                return res.status(400).json({ message: 'Por favor completa los campos vacios'});
+            }
             seller = await sequelize.models.sellers.create({
                 username: body.username,
                 email: body.email,
@@ -122,4 +125,18 @@ async function logInSeller(req, res) {
     return res.status(200).json({mensaje: "Ha ingresado correctamente!", token});
 }
 
-module.exports = { getSellers, getSeller, createSeller, signUpSeller, logInSeller };
+/**
+ * Función que elimina un seller
+ */
+async function deleteSeller(req, res) {
+    const id = req.params.id;
+    const seller = await sequelize.models.sellers.destroy(
+        {where: {id} }
+    );
+    if (!seller) {
+        return res.status(404).json({error: "Seller no encontrado para eliminar"});
+    }
+    return res.status(200).json(seller);
+}
+
+module.exports = { getSellers, getSeller, createSeller, signUpSeller, logInSeller, deleteSeller };
