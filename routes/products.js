@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products')
-const auth = require('../config/auth');
+const authentication = require('../middlewares/authentication');
+const permission = require('../middlewares/permission');
 
 
 /**
@@ -197,7 +198,8 @@ router.get('/:id', getProduct);
  *                      message:
  *                          type: string
  */
-router.post('/', auth.required, createProduct);
+ router.post('/', authentication, createProduct);
+// router.post('/', auth.required, createProduct);
 
 /**
  * @openapi
@@ -277,7 +279,7 @@ router.post('/', auth.required, createProduct);
  *                 message:
  *                   type: string
  */
-router.patch('/:id', updateProduct);
+router.patch('/:id', authentication, updateProduct);
 
 /**
  * @openapi
@@ -327,6 +329,6 @@ router.patch('/:id', updateProduct);
  *                 message:
  *                   type: string
  */
-router.delete('/:id', deleteProduct);
+router.delete('/:id', authentication, deleteProduct);
 
 module.exports = router;

@@ -1,20 +1,23 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 const sequelize = require('./config/db');
 const routes = require('./routes/index');
-const auth = require('./config/auth');
-
-const swaggerOptions = require('./config/swagger');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUI =require('swagger-ui-express');
 
 const app = express();
-app.use(express.json());
-app.use(auth.optional);
-app.use('/', routes);
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use(helmet());
+app.use(cors());
+
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+
+app.get('/', (request, response) => {
+    response.send('<h1>API Equipo 13</h1>')
+})
+
+app.use('/', routes);
 
 try {
     sequelize.authenticate();

@@ -9,13 +9,13 @@ const Products = require('../models/products')
 const Sellers = require('../models/sellers')
 
 const sequelize = new Sequelize(
-  'railway',
+  'fondidita',
   'root',
-  's3GcRVgV3XzrO3clvuYW',
+  'latom8',
   {
-    host: 'containers-us-west-55.railway.app',
+    host: 'localhost',
     dialect: 'mysql',
-    port: 7548,
+    port: 3306,
     logging: false 
   }
 )
@@ -28,11 +28,11 @@ const models = [
   Orders,
   Products,
   Sellers
-  ]
+]
 
-for(let model of models)
-  model(sequelize)
-
+for(let model of models){
+  model(sequelize);
+}
 //Relaciones
 
 module.exports = sequelize;

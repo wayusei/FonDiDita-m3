@@ -1,40 +1,30 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const sequelize = require('../config/db');
-const Orders_Details = require('./orders_details');
-const Sellers = require('./sellers');
+const { Sequelize, DataTypes } = require('sequelize');
 
-
-const Products = sequelize.define('products', {
-    id:{
-        type: DataTypes.INTEGER,
-        primaryKey:true,
-        allowNull: false
+module.exports = (sequelize) => sequelize.define('products', {
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+    name: Sequelize.STRING,
+    price: Sequelize.INTEGER,
+    description: Sequelize.STRING,
+    image: Sequelize.STRING,
+    thumbnail: Sequelize.STRING,
+    category: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'categories',
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
-    name:{
-        type: DataTypes.STRING
-    },
-    price:{
-        type: DataTypes.INTEGER
-    },
-    description:{
-        type: DataTypes.STRING
-    },
-    image:{
-        type: DataTypes.STRING
-    },
-    thumbnail:{
-        type: DataTypes.STRING
-    },
-    category:{
-        type: DataTypes.INTEGER
-    },
-    seller_id:{ 
-        type: DataTypes.INTEGER
+    seller_id: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'sellers',
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     }
 },
 {
     freezeTableName: true,
-    timestamps:false
+    timestamps: false
 });
-
-module.exports = Products;

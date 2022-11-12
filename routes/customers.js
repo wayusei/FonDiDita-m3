@@ -1,15 +1,15 @@
 const router = require('express').Router();
 
 
-const {
+/* const {
     getCustomers,
     getCustomerbyId,
     insertCustomer,
     signUp,
     logIn,
     deleteCustomer,
-} = require('../controllers/customers');
-const auth = require('../config/auth');
+} = require('../controllers/customers'); */
+//const auth = require('../config/auth');
 
 /**
  * @openapi
@@ -58,7 +58,7 @@ const auth = require('../config/auth');
  *                 error:
  *                  type: string
  */
-router.get('/', getCustomers);
+//router.get('/', getCustomers);
 
 
 /**
@@ -109,7 +109,7 @@ router.get('/', getCustomers);
  *                 message:
  *                   type: string
  */
-router.get('/getbyId/:id', getCustomerbyId);
+//router.get('/getbyId/:id', getCustomerbyId);
 
 
 /**
@@ -214,7 +214,7 @@ router.get('/getbyId/:id', getCustomerbyId);
  *                      message:
  *                          type: string
  */
-router.post('/insert',auth.isAdmin, insertCustomer);
+//router.post('/insert',auth.isAdmin, insertCustomer);
 
 
 /**
@@ -312,7 +312,7 @@ router.post('/insert',auth.isAdmin, insertCustomer);
  *                   type: string
  
  */
-router.post('/signUp', signUp);
+//router.post('/signUp', signUp);
 
 
 
@@ -366,7 +366,7 @@ router.post('/signUp', signUp);
  *                 error:
  *                  type: string
  */
-router.post('/logIn', logIn);
+//router.post('/logIn', logIn);
 
 /**
  * @openapi
@@ -400,7 +400,7 @@ router.post('/logIn', logIn);
  *                 message:
  *                   type: string
  */
-router.delete('/deleteCustomer/:id',auth.isAdmin, deleteCustomer);
+//router.delete('/deleteCustomer/:id',auth.isAdmin, deleteCustomer);
 
 
 
