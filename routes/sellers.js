@@ -109,15 +109,12 @@ router.post('/', createSeller);
  *                      full_name:
  *                          type: string
  *                          example: Armando Sanchez
+ *                      password:
+ *                          type: string
+ *                          example: 484849x48a4449c4c9z949x4sxsxs94
  *                      account:
  *                          type: string
  *                          example: account8
- *                      password_hash:
- *                          type: string
- *                          example: 484849x48a4449c4c9z949x4sxsxs94
- *                      password_salt:
- *                          type: string
- *                          example: 5a45a4s54as5a45asxasc5
  * 
  *      400:
  *        description: Bad Request
@@ -146,7 +143,7 @@ router.post('/signUpSeller', signUpSeller);
  *              schema:
  *                  type: object
  *                  required:
- *                      - username
+ *                      - email
  *                      - password
  *                  properties:
  *                      username:
