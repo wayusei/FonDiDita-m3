@@ -1,8 +1,15 @@
 const Sellers = require('../models/sellers');
+const sequelize = require('../config/db');
+const jwt = require('jsonwebtoken');
 
+/**
+ * Obtiene una lista de sellers registrados en la BD, solo muestra ciertos datos
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function getSellers(req, res) {
     try {
-        const sellers = await Sellers.findAll();
+        const sellers = await sequelize.models.sellers.findAll();
         const array = [];
         sellers.map(seller => {
             array.push({
@@ -12,42 +19,76 @@ async function getSellers(req, res) {
                 full_name: seller.full_name
             });
         });
-        res.status(200).json(array);
+        return res.status(200).json(array);
     } catch (error) {
         console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
             message: 'Internal server error',
             error
         })
     }
 }
 
+/**
+ * Obtiene un seller mediante un id
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function getSeller(req, res) {
     const id = req.params.id;
-    const seller = await Sellers.findByPk(id);
-    res.status(200).json(seller);
+    const seller = await sequelize.models.sellers.findOne({where: {id}});
+    if (!seller) {
+        return res.status(404).json({ message: "Seller no encontrado" });
+    }
+    const dataSeller = {
+        id: seller.id,
+        username: seller.username,
+        email: seller.email,
+        full_name: seller.full_name
+    };
+    return res.status(200).json({ data:dataSeller });
 }
 
-function createSeller(req, res) {
-    const body = req.body;
-    Sellers.create(body).then(seller => {
-        res.status(201).json(seller);
+/**
+ * Crea un seller y lo guarda en la BD
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function createSeller(req, res) {
+    const { body } = req;
+    const seller = await sequelize.models.sellers.create({
+        username: body.username,
+        email: body.email,
+        password: body.password,
+        full_name: body.full_name,
+        account: body.account
     });
+    await seller.save();
+    return res.status(201).json({ data: seller, message: 'seller creado exitosamene.' });
 }
 
+/**
+ * Permite registrar a un seller
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function signUpSeller(req, res) {
-    const body = req.body;
+    const { body } = req;
     try { 
-        const existId = await Sellers.findOne({where:{id: body.id}});
-        if(!existId){
-            const seller = await Sellers.create(body);
-            const {salt, hash} = Sellers.createPassword(body['password']);
-            seller.password_salt = salt;
-            seller.password_hash = hash;
-            await seller.save();
-            res.status(201).json(seller);
+        let seller = await sequelize.models.sellers.findOne({where:{email: body.email}});
+        if(seller){
+            return res.status(400).json({ message: 'Email ya registrado'});
         } else {
-            res.status(400).json({message:"Id en existencia, use otro"});
+            seller = await sequelize.models.sellers.create({
+                username: body.username,
+                email: body.email,
+                password: body.password,
+                full_name: body.full_name,
+                account: body.account
+            });
+            await seller.save();
+            return res.status(400).json({ data: seller, message:"Se ha creado la cuenta de seller exitosamente." });
         }
     } catch (err) {
         if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name) ) {
@@ -61,37 +102,25 @@ async function signUpSeller(req, res) {
     }
 }
 
+/**
+ * Función que permite logear a un seller
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function logInSeller(req, res) {
     const body = req.body;
-    const user = await Sellers.findOne({where: {username: body['username']}});
-    if (!user) {
+    const seller = await sequelize.models.sellers.findOne({where: {email: body['email']}});
+    if (!seller) {
         return res.status(404).json({error: "User not found"});
     }
-    if (Sellers.validatePassword(body['password'], user.password_salt, user.password_hash)) {
-        return res.status(200).json({
-            user: user.username,
-            email: user.email,
-            token: Sellers.generateJWT(user)
-        }); 
-    } else {
-        return res.status(400).json({mensaje: "Password Incorrecto"});
+    if (!seller.validPassword(body['password'])) {
+        return res.status(401).json({ message: 'Datos incorrectos!'}); 
     }
+    const token = jwt.sign({ sellerId: seller.id }, 'secretKey', {
+        expiresIn: 3600
+    })
+    return res.status(200).json({mensaje: "Ha ingresado correctamente!", token});
 }
 
-async function updateSeller(req, res) {
-    const id = req.params.id;
-    const seller = req.body;
-    await Sellers.update(seller, {where: {id}});
-    const seller_updated = await Sellers.findByPk(id);
-    res.status(200).json(seller_updated);
-}
-
-async function deleteSeller(req, res) {
-    const id = req.params.id;
-    const deleted = Sellers.destroy(
-        {where: {id} }
-    );
-    res.status(200).json(deleted);
-}
-
-module.exports = { getSellers, getSeller, createSeller, updateSeller, deleteSeller, signUpSeller, logInSeller };
+module.exports = { getSellers, getSeller, createSeller, signUpSeller, logInSeller };

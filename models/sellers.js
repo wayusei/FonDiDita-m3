@@ -1,41 +1,42 @@
 const { Sequelize, DataTypes} = require('sequelize');
-const sequelize = require('../config/db');
+const bcrypt = require('bcrypt');
+
+/* const sequelize = require('../config/db');
 const Products = require('./products');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = require('../config/secret');
+ */
+module.exports = (sequelize) => {
+    const Sellers = sequelize.define('sellers', {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey:true,
+            autoIncrement: true
+        },
+        username: Sequelize.STRING,
+        email:Sequelize.STRING,
+        password: Sequelize.STRING,
+        full_name: Sequelize.STRING,
+        account: Sequelize.STRING,
+    }, {
+        freezeTableName: true,
+        timestamps:false,
+        hooks: {
+            beforeCreate: (user) => {
+              const salt = bcrypt.genSaltSync()
+              user.password = bcrypt.hashSync(user.password, salt)
+            }
+        }
+    });
 
-const Sellers = sequelize.define('sellers', {
-    id:{
-        type: DataTypes.INTEGER,
-        primaryKey:true
-    },
-    username:{
-        type: DataTypes.STRING
-    },
-    email:{
-        type: DataTypes.STRING
-    },
-    password_hash:{
-        type: DataTypes.STRING
-    },
-    full_name:{
-        type: DataTypes.STRING
-    },
-    account:{
-        type: DataTypes.STRING
-    },
-    password_salt:{
-        type: DataTypes.STRING
-    },
-},
-{
-    freezeTableName: true,
-    timestamps:false
-});
+    Sellers.prototype.validPassword = function (password) {
+        return bcrypt.compareSync(password, this.password)
+    }
 
-
-Sellers.createPassword = function(plainText) {
+    return Sellers;
+};
+/* Sellers.createPassword = function(plainText) {
     const salt = crypto.randomBytes(16).toString('hex');
     const hash = crypto
         .pbkdf2Sync(plainText, salt, 1000, 100, "sha512")
@@ -59,5 +60,4 @@ Sellers.generateJWT = function(user) {
         exp: parseInt(exp.getTime() / 1000)
     }, secret);
 }
-
-module.exports = Sellers;
+ */

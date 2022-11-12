@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products')
-const auth = require('../config/auth');
+const authentication = require('../middlewares/authentication');
+const permission = require('../middlewares/permission');
 
 
 /**
@@ -197,7 +198,8 @@ router.get('/:id', getProduct);
  *                      message:
  *                          type: string
  */
-router.post('/', auth.required, createProduct);
+ router.post('/', createProduct);
+// router.post('/', auth.required, createProduct);
 
 /**
  * @openapi

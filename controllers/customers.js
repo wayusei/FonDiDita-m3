@@ -1,8 +1,6 @@
 const Customers = require('../models/customers');
 
 
-
-
 async function getCustomers(req, res) {
     const customers = await Customers.findAll();
     res.status(200).json(customers);    
@@ -65,9 +63,6 @@ async function logIn(req, res) {
     }
 }
 
-
-
-
 async function deleteCustomer(req, res) {
     const id = req.params.id;
     const deleted = Customers.destroy(
@@ -75,7 +70,6 @@ async function deleteCustomer(req, res) {
     );
     res.status(200).json({"message":"Usuario eliminado"});
 }
-
 
 module.exports = {
     getCustomers,

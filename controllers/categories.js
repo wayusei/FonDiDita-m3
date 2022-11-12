@@ -1,4 +1,4 @@
-const Categories = require('../models/categories');
+const sequelize = require('../config/db');
 
 
 /**
@@ -7,17 +7,9 @@ const Categories = require('../models/categories');
  * @param {*} res 
  */
 async function getCategories(req, res) {
-    try {
-        const categories = await Categories.findAll();
-        res.status(200).json({categories});
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: 'Internal server error',
-            error
-        })
-    }
+    return await sequelize.models.categories.findAndCountAll()
+        .then(data => res.json(data))
+        .catch(err => res.json({ message: 'Error', data: err}))
 }
 
 /**
@@ -27,11 +19,11 @@ async function getCategories(req, res) {
  */
 async function getCategory(req, res) {
     const id = req.params.id;
-    const category = await Categories.findByPk(id);
+    const category = await sequelize.models.categories.findOne({where: {id}});
     if (!category) {
         return res.status(404).json({ message: "Categoria no encontrada" });
     }
-    res.status(200).json(category);
+    return res.status(201).json({ data: category });
 }
 
 /**
@@ -40,16 +32,13 @@ async function getCategory(req, res) {
  * @param {*} res 
  */
 async function createCategory(req, res) {
-
-    const body = req.body;
-    await Categories.create(body).then(category => {
-        res.status(201).json(category);
-    }).catch(function(error){
-        console.log(error);
-        res.status(500).json({
-            message: 'Internal server error'
-        })
+    const { body } = req;
+    const category = await sequelize.models.categories.create({
+        name: body.name,
+        description: body.description
     });
+    await category.save();
+    return res.status(201).json({ data: category })
 }
 
 /**
@@ -58,11 +47,16 @@ async function createCategory(req, res) {
  * @param {*} res 
  */
 async function updateCategory(req, res) {
-    const id = req.params.id;
-    const category = req.body;
-    await Categories.update(category, {where: {id}});
-    const category_updated = await Categories.findByPk(id);
-    res.status(200).json(category_updated);
+    const { body, params: { id } } = req;
+    const category = await sequelize.models.categories.findByPk(id);
+    if (!category) {
+        return res.status(404).json({ code:404, message: 'Category not found' });
+    }
+    const updateCategory = await category.update({
+        name: body.name,
+        description: body.description
+    });
+    return res.json({ data: updateCategory });
 }
 
 /**
@@ -71,11 +65,13 @@ async function updateCategory(req, res) {
  * @param {*} res 
  */
 async function deleteCategory(req, res) {
-    const id = req.params.id;
-    const deleted = Categories.destroy(
-        {where: {id} }
-    );
-    res.status(200).json(deleted);
+    const { params: {id} } = req;
+    const category = await sequelize.models.categories.findByPk(id);
+    if (!category) {
+        return res.status(404).json({ code:404, message: 'Category not found' });
+    }
+    await category.destroy();
+    return res.json();
 }
 
 module.exports = { getCategories, getCategory, createCategory, updateCategory, deleteCategory };

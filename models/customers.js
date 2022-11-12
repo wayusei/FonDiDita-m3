@@ -1,38 +1,39 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/db');
+const { Sequelize, DataTypes} = require('sequelize');
+/* const sequelize = require('../config/db');
 
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const secret = require('../config/secret');
+const secret = require('../config/secret'); */
 
 
-class Customers extends Model{
-  
-    
-}
-
-Customers.init(
-    {
-    id: {type: DataTypes.INTEGER,primaryKey:true},
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    
-    password_hash: DataTypes.STRING,
-    full_name: DataTypes.STRING,
-    billing_address: DataTypes.STRING,
-    default_shipping_address: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
-    password_salt: DataTypes.STRING,
-    },
-    {
-        sequelize,
-        modelName:'customers',
+module.exports = (sequelize) => {
+    const Customers = sequelize.define('customers', {
+        id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+        username: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password: Sequelize.STRING,
+        full_name: Sequelize.STRING,
+        billing_address: Sequelize.STRING,
+        default_shipping_address: Sequelize.STRING,
+        phone: Sequelize.INTEGER
+    }, {
+        freezeTableName: true,
         timestamps:false,
-        freezeTableName: true
+        hooks: {
+            beforeCreate: (user) => {
+              const salt = bcrypt.genSaltSync()
+              user.password = bcrypt.hashSync(user.password, salt)
+            }
+        }
+    });
+
+    Customers.prototype.validPassword = function (password) {
+        return bcrypt.compareSync(password, this.password)
     }
-);
-
-
+    
+    return Customers;
+}
+/* 
 Customers.createPassword = function(plainText) {
     const salt = crypto.randomBytes(16).toString('hex');
     const hash = crypto
@@ -60,6 +61,4 @@ Customers.generateJWT = function(user) {
         exp: parseInt(exp.getTime() / 1000)
     }, secret);
 }
-
-
-module.exports = Customers;
+ */

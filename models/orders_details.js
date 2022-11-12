@@ -1,29 +1,29 @@
-const { DataTypes} = require('sequelize');
+const { Sequelize ,DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 
-const Orders_Details = sequelize.define('orders_details', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey:true,
-        allowNull: false
-    },
+module.exports = (sequelize) => sequelize.define('orders_details', {
+    id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     order_id: {
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'orders',
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
     product_id: {
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'products',
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
-    price: {
-        type: DataTypes.INTEGER
-    },
-    quantity: {
-        type: DataTypes.STRING
-    }
+    price: Sequelize.INTEGER,
+    quantity: Sequelize.INTEGER
 },
 {
     freezeTableName: true,
-    timestamps:false
+    timestamps: false
 });
-
-module.exports = Orders_Details;

@@ -1,10 +1,10 @@
 {
     "development": {
       "username": "root",
-      "password": "s3GcRVgV3XzrO3clvuYW",
-      "database": "railway",
-      "host": "containers-us-west-55.railway.app",
-      "port": "7548",
+      "password": "latom8",
+      "database": "fondidita",
+      "host": "127.0.0.1",
+      "port": "3306",
       "dialect": "mysql"
     } 
   }
