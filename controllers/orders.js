@@ -100,12 +100,21 @@ async function createOrder(req, res) {
 async function updateOrder(req, res) {
     const id = req.params.id;
     const order = req.body;
-    await Orders.update(order, {where: {id}});
-    const order_updated = await Orders.findByPk(id);
-    if(!order){
-        return res.status(404).json({message:"orden no encontrada"});
+    // await Orders.update(order, {where: {id}});
+    // const order_updated = await Orders.findByPk(id);
+    // if(!order){
+    //     return res.status(404).json({message:"orden no encontrada"});
+    // }
+    // res.status(200).json(order_updated);
+    try{
+        return await sequelize.models.orders.update(order,{where: {id}} )
+        .then(data => res.json(data))
+        .catch(err => res.json({ message: 'No se pudo crear la orden', data: err}))
+
+    } catch(error){
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error',error});
     }
-    res.status(200).json(order_updated);
 }
 
 /**
@@ -115,7 +124,7 @@ async function updateOrder(req, res) {
  */
 async function deleteOrder(req, res) {
     const id = req.params.id;
-    const deleted = Orders.destroy(
+    const deleted =  sequelize.models.orders.destroy(
         {where: {id} }
     );
     res.status(200).json(deleted);
