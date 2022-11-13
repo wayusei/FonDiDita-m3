@@ -2,7 +2,7 @@ const { response } = require('express');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../config/db');
 
-const authenticate = (req, res, next) => {
+const authenticateSeller = (req, res, next) => {
   const { authorization } = req.headers;
   jwt.verify(authorization, 'secretKey', async (err, decoded) => {
     if(err) return res.status(401).json({ message: 'Unauthorized!' });
@@ -11,4 +11,13 @@ const authenticate = (req, res, next) => {
   })
 }
 
-module.exports = authenticate;
+const authenticateCustomer = (req, res, next) => {
+  const { authorization } = req.headers;
+  jwt.verify(authorization, 'secretKey', async (err, decoded) => {
+    if(err) return res.status(401).json({ message: 'Unauthorized!' });
+    req.customer = await sequelize.models.customers.findOne({ where: { id: decoded.customerId } });
+    next();
+  })
+}
+
+module.exports = {authenticateSeller, authenticateCustomer};

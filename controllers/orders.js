@@ -1,5 +1,5 @@
-//const Orders = require('../models/orders');
 const sequelize = require('../config/db');
+
 /**
  * Obtiene la lista de ordenes
  * @param {*} req 

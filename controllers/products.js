@@ -44,6 +44,9 @@ async function createProduct(req, res) {
     if (!seller_id) {
         return res.status(404).json({ message: 'No se encontro el ID de seller_id'});
     }
+    if (body.name=="" || body.price=="" || body.description=="" || body.image=="" || body.thumbnail=="" || body.category=="" || body.seller_id=="") {
+        return res.json({message: 'Por favor llene todos los campos'});
+    }
     const product = await sequelize.models.products.create({
         name: body.name,
         price: body.price,

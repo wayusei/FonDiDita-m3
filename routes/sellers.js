@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getSellers, getSeller, createSeller, signUpSeller, logInSeller } = require('../controllers/sellers')
+const { getSellers, signUpSeller, logInSeller } = require('../controllers/sellers')
 
 /**
  * @openapi
@@ -43,12 +43,6 @@ const { getSellers, getSeller, createSeller, signUpSeller, logInSeller } = requi
  *                  type: string
  */
 router.get('/', getSellers);
-
-
-router.get('/:id', getSeller);
-
-
-router.post('/', createSeller);
 
 /**
  * @openapi
@@ -190,6 +184,5 @@ router.post('/signUpSeller', signUpSeller);
  *                   example: Usuario no encontrado
  */
 router.post('/logInSeller', logInSeller);
-
 
 module.exports = router;
