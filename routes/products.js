@@ -199,7 +199,6 @@ router.get('/:id', getProduct);
  *                          type: string
  */
  router.post('/', authentication, createProduct);
-// router.post('/', auth.required, createProduct);
 
 /**
  * @openapi

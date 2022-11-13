@@ -44,12 +44,6 @@ const { getSellers, getSeller, createSeller, signUpSeller, logInSeller, deleteSe
  */
 router.get('/', getSellers);
 
-
-router.get('/:id', getSeller);
-
-
-router.post('/', createSeller);
-
 /**
  * @openapi
  * '/sellers/signUpSeller':
@@ -193,7 +187,5 @@ router.post('/signUpSeller', signUpSeller);
  *                   example: Usuario no encontrado
  */
 router.post('/logInSeller', logInSeller);
-
-router.delete('/:id', deleteSeller);
 
 module.exports = router;
