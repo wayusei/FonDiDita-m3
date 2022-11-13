@@ -42,7 +42,7 @@ async function insertCustomer(req, res) {
         full_name: body.full_name,
         billing_address: body.billing_address,
         default_shipping_address: body.default_shipping_address,
-        phone: body.phone,
+        phone: body.phone
     })
     await newCustomer.save()
     return res.status(201).json({ data: newCustomer })
@@ -57,11 +57,11 @@ async function insertCustomer(req, res) {
 async function signUp(req, res) {
     const { body } = req
     try{
-        const cus = await sequelize.models.customers.findOne({ where: {email: body.email}})
+        const cus = await sequelize.models.customers.findOne({ where: {username: body.username }})
         if(cus){
-            return res.status(400).json({ message: 'Email ya registrado'})
+            return res.status(400).json({ message: 'Usuario ya registrado'})
         } else {
-            if(body.username=="" || body.email=="" || body.password=="" || body.full_name=="" || body.account==""){
+            if(body.username=="" || body.email=="" || body.password=="" || body.full_name=="" || body.billing_address=="" || body.default_shipping_address==""){
                 return res.status(400).json({ message: 'Por favor completa los campos vacíos'})
             }
             cus = await sequelize.models.customers.create({
@@ -69,7 +69,9 @@ async function signUp(req, res) {
                 email: body.email,
                 password: body.password,
                 full_name: body.full_name,
-                account: body.account
+                billing_address: body.billing_address,
+                default_shipping_address: body.default_shipping_address,
+                phone: body.phone
             })
             await cus.save()
             return res.status(400).json({ data: cus, message: "Se ha creado exitosamente la cuenta de cliente"})
