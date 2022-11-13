@@ -1,13 +1,6 @@
-const router = require('express').Router();
+const router = require('express').Router()
 
-
- const {
-    getCustomers,
-    getCustomerbyId,
-    signUp,
-    logIn,
-    deleteCustomer,
-} = require('../controllers/customers'); 
+const { getCustomers, getCustomerbyId, signUp, logIn, deleteCustomer } = require('../controllers/customers')
 
 /**
  * @openapi
@@ -15,13 +8,13 @@ const router = require('express').Router();
  *  get:
  *     tags:
  *     - Customers
- *     summary: Obtiene la lista de Clientes.
- *     description: Obtiene la lista de cñientes existentes en la BD.
+ *     summary: Obtiene la lista de clientes.
+ *     description: Obtiene la lista de clientes existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de clientes exitosamente
+ *        description: Se obtuvo la lista de clientes exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -32,7 +25,7 @@ const router = require('express').Router();
  *                       type: string
  *                  email:
  *                       type: string
- *                  password_hash:
+ *                  password:
  *                      type: string
  *                  full_name:
  *                       type: string
@@ -41,8 +34,6 @@ const router = require('express').Router();
  *                  default_shipping_address:
  *                       type: string
  *                  phone:
- *                       type: string
- *                  password_salt:
  *                       type: string
  * 
  *      500:
@@ -56,8 +47,7 @@ const router = require('express').Router();
  *                 error:
  *                  type: string
  */
-router.get('/', getCustomers);
-
+router.get('/', getCustomers)
 
 /**
  * @openapi
@@ -65,8 +55,8 @@ router.get('/', getCustomers);
  *  get:
  *     tags:
  *     - Customers
- *     summary: Obtiene los datos de un cliente buscando por un id que debe ponerse como parametro en el url
- *     description: Obtiene un cliente por id en la BD.
+ *     summary: Obtiene los datos de un cliente buscando por su ID que debe ponerse como parametro en el url
+ *     description: Obtiene un cliente por su id en la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
@@ -85,7 +75,7 @@ router.get('/', getCustomers);
  *                  type: string
  *                email:
  *                  type: string
- *                password_hash:
+ *                password:
  *                  type: string
  *                full_name:
  *                  type: string
@@ -95,11 +85,9 @@ router.get('/', getCustomers);
  *                  type: string
  *                phone:
  *                  type: string
- *                password_salt:
- *                  type: string
  * 
  *      404:
- *        description: Producto no encontrado
+ *        description: Cliente no encontrado
  *        content:
  *          application/json:
  *           schema:
@@ -107,8 +95,7 @@ router.get('/', getCustomers);
  *                 message:
  *                   type: string
  */
-router.get('/getbyId/:id', getCustomerbyId);
-
+router.get('/getbyId/:id', getCustomerbyId)
 
 /**
  * @openapi
@@ -116,8 +103,8 @@ router.get('/getbyId/:id', getCustomerbyId);
  *   post:
  *     tags:
  *     - Customers
- *     summary: Crea un nuevo cliente (con password_hash y password_salt).
- *     description: Crea un nuevo cliente y lo inserta en la BD. Realiza encriptación del password
+ *     summary: Crea un nuevo cliente.
+ *     description: Crea un nuevo cliente y lo inserta en la BBDD. Realiza encriptación del password
  *     security:
  *        - bearerAuth: []
  *     requestBody:
@@ -162,7 +149,7 @@ router.get('/getbyId/:id', getCustomerbyId);
  *                       example: 12345678
  *     responses:
  *      201:
- *        description: Se creo el cliente exitosamente.
+ *        description: Se creó el cliente exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -176,7 +163,7 @@ router.get('/getbyId/:id', getCustomerbyId);
  *                      email:
  *                          type: string
  *                          example: mail@mail.com
- *                      password_hash:
+ *                      password:
  *                          type: string
  *                          example: 1234
  *                      full_name:
@@ -191,9 +178,6 @@ router.get('/getbyId/:id', getCustomerbyId);
  *                      phone:
  *                          type: string
  *                          example: 12345678
- *                      password_salt:
- *                          type: string
- *                          example: 1234
  * 
  *      500:
  *        description: Error al crear el cliente
@@ -205,9 +189,7 @@ router.get('/getbyId/:id', getCustomerbyId);
  *                   type: string
  
  */
-router.post('/signUp', signUp);
-
-
+router.post('/signUp', signUp)
 
 /**
  * @openapi
@@ -216,7 +198,7 @@ router.post('/signUp', signUp);
  *     tags:
  *     - Customers
  *     summary: Login para obtener token.
- *     description: Al introducir un usuario y contraseña correctos, se devuee un token para poder autorizarse.
+ *     description: Al introducir un usuario y contraseña correctos, se devuelve un token para poder autorizarse.
  *     requestBody:
  *      required: true
  *      content:
@@ -243,8 +225,6 @@ router.post('/signUp', signUp);
  *               properties:
  *                  username:
  *                       type: string
- *                  email:
- *                       type: string
  *                  token:
  *                       type: string
  * 
@@ -259,7 +239,7 @@ router.post('/signUp', signUp);
  *                 error:
  *                  type: string
  */
-router.post('/logIn', logIn);
+router.post('/logIn', logIn)
 
 /**
  * @openapi
@@ -268,7 +248,7 @@ router.post('/logIn', logIn);
  *     tags:
  *     - Customers
  *     summary: Borra el registro de un cliente (requiere login de admin)
- *     description: Borra un cliente por id en la BD. Para poder proceder es necesario hacer un login de la cuenta de admin (contraseña = 1234) y utilizar el token
+ *     description: Borra un cliente por su ID en la BBDD. Para poder proceder es necesario hacer login de la cuenta de admin (contraseña = 1234) y utilizar el token
  *     parameters:
  *      - name: id
  *        in: path
@@ -285,7 +265,7 @@ router.post('/logIn', logIn);
  *                  type: string
  * 
  *      404:
- *        description: Producto no encontrado
+ *        description: Cliente no encontrado
  *        content:
  *          application/json:
  *           schema:
@@ -293,8 +273,6 @@ router.post('/logIn', logIn);
  *                 message:
  *                   type: string
  */
-router.delete('/deleteCustomer/:id', deleteCustomer);
+router.delete('/deleteCustomer/:id', deleteCustomer)
 
-
-
-module.exports = router;
+module.exports = router

@@ -1,4 +1,4 @@
-const sequelize = require('../config/db');
+const sequelize = require('../config/db')
 const jwt = require('jsonwebtoken')
 
 /**
@@ -20,14 +20,13 @@ async function getCustomers(req, res) {
  */
 async function getCustomerbyId(req, res) {
     const id = req.params.id;
-    const cus = await sequelize.models.customers.findByPk(id);   
+    const cus = await sequelize.models.customers.findByPk(id)   
     if(!cus){
-        return res.status(404).json({message: "Cliente no encontrado"});
+        return res.status(404).json({message: "Cliente no encontrado"})
     }else{
-        res.status(200).json(cus);
+        res.status(200).json(cus)
     }
 }
-
 
 /**
  * Permite registrar a un cliente
@@ -65,6 +64,7 @@ async function signUp(req, res) {
         }
     }
 }
+
 /**
  * Función que permite iniciar sesión a un cliente
  * @param {*} req 
@@ -99,10 +99,4 @@ async function deleteCustomer(req, res) {
     return res.status(200).json({"message":"Cliente eliminado exitosamente", deleted})
 }
 
-module.exports = {
-    getCustomers,
-    getCustomerbyId,
-    signUp,
-    logIn,
-    deleteCustomer,
-}
+module.exports = { getCustomers, getCustomerbyId, signUp, logIn, deleteCustomer }

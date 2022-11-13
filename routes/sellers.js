@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router()
 const { getSellers, signUpSeller, logInSeller } = require('../controllers/sellers')
 
 /**
@@ -7,8 +7,8 @@ const { getSellers, signUpSeller, logInSeller } = require('../controllers/seller
  *  get:
  *     tags:
  *     - Sellers
- *     summary: Obtiene una lista de los vendedores.
- *     description: Obtiene una lista de vendedores existentes en la BD.
+ *     summary: Obtiene la lista de vendedores.
+ *     description: Obtiene la lista de vendedores existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
@@ -32,7 +32,7 @@ const { getSellers, signUpSeller, logInSeller } = require('../controllers/seller
  *                    example: Gonzalo Perez
  * 
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -40,9 +40,9 @@ const { getSellers, signUpSeller, logInSeller } = require('../controllers/seller
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.get('/', getSellers);
+router.get('/', getSellers)
 
 /**
  * @openapi
@@ -50,8 +50,8 @@ router.get('/', getSellers);
  *  post:
  *     tags:
  *     - Sellers
- *     summary: Registra a un vendedor.
- *     description: Registra a un vendedor en la BD.
+ *     summary: Registra un vendedor.
+ *     description: Registra un vendedor en la BBDD.
  *     requestBody:
  *      required: true
  *      content:
@@ -86,7 +86,7 @@ router.get('/', getSellers);
  *                          example: account8
  *     responses:
  *      200:
- *        description: Se registro a un vendedor exitosamente.
+ *        description: Se registró al vendedor exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -111,16 +111,16 @@ router.get('/', getSellers);
  *                          example: account8
  * 
  *      400:
- *        description: Bad Request
+ *        description: Bad Request.
  *        content:
  *          application/json:
  *           schema:
  *              properties:
  *                 message:
  *                   type: string
- *                   example: Id en existencia, use otro
+ *                   example: ID en existencia, use otro
  */
-router.post('/signUpSeller', signUpSeller);
+router.post('/signUpSeller', signUpSeller)
 
 /**
  * @openapi
@@ -129,7 +129,7 @@ router.post('/signUpSeller', signUpSeller);
  *     tags:
  *     - Sellers
  *     summary: Login del vendedor.
- *     description: Logea a un vendedor.
+ *     description: Inicio de sesión de un vendedor.
  *     requestBody:
  *      required: true
  *      content:
@@ -140,15 +140,15 @@ router.post('/signUpSeller', signUpSeller);
  *                      - email
  *                      - password
  *                  properties:
- *                      username:
+ *                      email:
  *                          type: string
- *                          example: armando
+ *                          example: armando@correo.com
  *                      password:
  *                          type: string
  *                          example: password8
  *     responses:
  *      200:
- *        description: Se logeo un vendedor exitosamente.
+ *        description: Inicio de sesión exitoso.
  *        content:
  *          application/json:
  *            schema:
@@ -164,7 +164,7 @@ router.post('/signUpSeller', signUpSeller);
  *                          example: 5a4sa5s4a4s.as5as4a4s.dsds5454
  * 
  *      400:
- *        description: Bad request
+ *        description: Bad request.
  *        content:
  *          application/json:
  *           schema:
@@ -174,7 +174,7 @@ router.post('/signUpSeller', signUpSeller);
  *                   example: Password Incorrecto
  * 
  *      404:
- *        description: Not Found
+ *        description: User not Found.
  *        content:
  *          application/json:
  *           schema:
@@ -183,6 +183,6 @@ router.post('/signUpSeller', signUpSeller);
  *                   type: string
  *                   example: Usuario no encontrado
  */
-router.post('/logInSeller', logInSeller);
+router.post('/logInSeller', logInSeller)
 
-module.exports = router;
+module.exports = router

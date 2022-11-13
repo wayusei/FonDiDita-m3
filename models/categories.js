@@ -1,5 +1,4 @@
-const { Sequelize, DataTypes} = require('sequelize');
-
+const { Sequelize, DataTypes} = require('sequelize')
 
 module.exports = (sequelize) => sequelize.define('categories', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -9,4 +8,4 @@ module.exports = (sequelize) => sequelize.define('categories', {
 {
     freezeTableName: true,
     timestamps:false
-});
+})

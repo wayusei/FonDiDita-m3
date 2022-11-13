@@ -1,6 +1,6 @@
-const router = require('express').Router();
+const router = require('express').Router()
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require('../controllers/categories')
-const {authenticateSeller} = require('../middlewares/authentication');
+const {authenticateSeller} = require('../middlewares/authentication')
 
 /**
  * @openapi
@@ -9,12 +9,12 @@ const {authenticateSeller} = require('../middlewares/authentication');
  *     tags:
  *     - Categories
  *     summary: Obtiene una lista de categorias.
- *     description: Obtiene una lista de categorias existentes en la BD.
+ *     description: Obtiene una lista de categorias existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de categorias exitosamente
+ *        description: Se obtuvo la lista de categorias exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -40,7 +40,7 @@ const {authenticateSeller} = require('../middlewares/authentication');
  *                 error:
  *                  type: string
  */
-router.get('/', getCategories);
+router.get('/', getCategories)
 
 /**
  * @openapi
@@ -49,12 +49,12 @@ router.get('/', getCategories);
  *     tags:
  *     - Categories
  *     summary: Obtiene una categoria por id.
- *     description: Obtiene una categoria por id de la BD.
+ *     description: Obtiene una categoria por id de la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
  *        required: true
- *        description: Id en el path para obtener una categoria.
+ *        description: ID en el path para obtener una categoria.
  *     responses:
  *      200:
  *        description: Se obtuvo la categoria exitosamente.
@@ -82,7 +82,7 @@ router.get('/', getCategories);
  *                   type: string
  *                   example: Categoria no encontrada
  */
-router.get('/:id', getCategory);
+router.get('/:id', getCategory)
 
 /**
  * @openapi
@@ -91,7 +91,7 @@ router.get('/:id', getCategory);
  *     tags:
  *     - Categories
  *     summary: Crea una categoria.
- *     description: Crea una nueva categoria y la agrega a la BD.
+ *     description: Crea una nueva categoria y la agrega a la BBDD.
  *     requestBody:
  *        required: true
  *        content:
@@ -111,7 +111,7 @@ router.get('/:id', getCategory);
  * 
  *     responses:
  *      201:
- *        description: Se creo la categoria exitosamente.
+ *        description: Se creó la categoria exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -127,7 +127,7 @@ router.get('/:id', getCategory);
  *                          example: Aceitunas de la mejor calidad
  * 
  *      500:
- *        description: Error al crear la categoria
+ *        description: Error al crear la categoria.
  *        content:
  *          application/json:
  *           schema:
@@ -135,7 +135,7 @@ router.get('/:id', getCategory);
  *                 message:
  *                   type: string
  */
-router.post('/', authenticateSeller, createCategory);
+router.post('/', authenticateSeller, createCategory)
 
 /**
  * @openapi
@@ -144,7 +144,7 @@ router.post('/', authenticateSeller, createCategory);
  *     tags:
  *     - Categories
  *     summary: Actualiza una categoria.
- *     description: Actualiza la información de una categoria en la BD.
+ *     description: Actualiza la información de una categoria en la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
@@ -169,7 +169,7 @@ router.post('/', authenticateSeller, createCategory);
  * 
  *     responses:
  *      200:
- *        description: Se actualizo la categoria exitosamente.
+ *        description: Se actualizó la categoria exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -185,7 +185,7 @@ router.post('/', authenticateSeller, createCategory);
  *                          example: Aceitunas de la mejor calidad
  * 
  *      500:
- *        description: Error al actualizar la categoria
+ *        description: Error al actualizar la categoria.
  *        content:
  *          application/json:
  *           schema:
@@ -193,7 +193,7 @@ router.post('/', authenticateSeller, createCategory);
  *                 message:
  *                   type: string
  */
-router.patch('/:id', authenticateSeller, updateCategory);
+router.patch('/:id', authenticateSeller, updateCategory)
 
 /**
  * @openapi
@@ -202,7 +202,7 @@ router.patch('/:id', authenticateSeller, updateCategory);
  *     tags:
  *     - Categories
  *     summary: Elimina una categoria por id.
- *     description: Elimina una categoria de la BD.
+ *     description: Elimina una categoria de la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
@@ -212,7 +212,7 @@ router.patch('/:id', authenticateSeller, updateCategory);
  *        required: false
  *     responses:
  *      200:
- *        description: Se elimino el producto exitosamente.
+ *        description: Se eliminó el producto exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -230,6 +230,6 @@ router.patch('/:id', authenticateSeller, updateCategory);
  *                 message:
  *                   type: string
  */
-router.delete('/:id', authenticateSeller, deleteCategory);
+router.delete('/:id', authenticateSeller, deleteCategory)
 
-module.exports = router;
+module.exports = router

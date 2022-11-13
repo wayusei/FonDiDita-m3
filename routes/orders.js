@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, deleteOrder  } = require('../controllers/orders')
+const router = require('express').Router()
+const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, deleteOrder } = require('../controllers/orders')
 
 /**
  * @openapi
@@ -7,13 +7,13 @@ const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, dele
  *  get:
  *     tags:
  *     - Orders
- *     summary: Obtiene la lista de ordenes.
- *     description: Obtiene la lista de ordenes existentes en la BD.
+ *     summary: Obtiene la lista de órdenes.
+ *     description: Obtiene la lista de órdenes existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de ordenes exitosamente
+ *        description: Se obtuvo la lista de órdenes exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -27,7 +27,7 @@ const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, dele
  *                  shipping_address:
  *                       type: string
  *                  order_address:
- *                      type: string
+ *                       type: string
  *                  order_email:
  *                       type: string
  *                  order_date:
@@ -36,7 +36,7 @@ const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, dele
  *                       type: number
  *                  
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -44,9 +44,9 @@ const { getOrders, getOrder, getOrdersByCustomer, createOrder, updateOrder, dele
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.get('/', getOrders);
+router.get('/', getOrders)
 
 /**
  * @openapi
@@ -54,7 +54,7 @@ router.get('/', getOrders);
  *  get:
  *     tags:
  *     - Orders
- *     summary: Obtiene la orden por id.
+ *     summary: Obtiene una orden por su ID.
  *     description: Obtiene la orden existente en la BBDD por una ID. 
  *     parameters:
  *      - name: id
@@ -63,7 +63,7 @@ router.get('/', getOrders);
  *        description: Parametro en el path para obtener la orden por su ID.
  *     responses:
  *      200:
- *        description: Se obtuvo la orden exitosamente
+ *        description: Se obtuvo la orden exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -86,7 +86,7 @@ router.get('/', getOrders);
  *                    type: number
  *      
  *      404:
- *        description: Orden no encontrada
+ *        description: Orden no encontrada.
  *        content:
  *          application/json:
  *            schema:
@@ -95,7 +95,7 @@ router.get('/', getOrders);
  *                   type: string
  *             
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *            schema:
@@ -105,7 +105,7 @@ router.get('/', getOrders);
  *                 error:
  *                   type: string
  */
-router.get('/:id', getOrder);
+router.get('/:id', getOrder)
 
 /**
  * @openapi
@@ -113,16 +113,16 @@ router.get('/:id', getOrder);
  *  get:
  *     tags:
  *     - Orders
- *     summary: Obtiene las ordenes de un cliente determinado.
- *     description: Obtiene la lista de ordenes existentes en la BBDD de un cliente determinado por una ID. 
+ *     summary: Obtiene las órdenes de un cliente determinado por su ID.
+ *     description: Obtiene la lista de órdenes existentes en la BBDD de un cliente determinado por una ID. 
  *     parameters:
  *      - name: customer_id
  *        in: path
  *        required: true
- *        description: Parametro en el path para obtener las ordenes de un cliente.
+ *        description: Parametro en el path para obtener las órdenes de un cliente.
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de ordenes exitosamente
+ *        description: Se obtuvo la lista de ordenes exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -131,21 +131,21 @@ router.get('/:id', getOrder);
  *                    type: number
  *                  customer_id:
  *                    type: number
- *                  ammount:
- *                       type: number
+ *                  amount:
+ *                    type: number
  *                  shipping_address:
- *                       type: string
+ *                    type: string
  *                  order_address:
- *                      type: string
+ *                    type: string
  *                  order_email:
- *                       type: string
+ *                    type: string
  *                  order_date:
- *                       type: string
+ *                    type: string
  *                  order_status:
- *                       type: number
+ *                    type: number
  *      
  *      404:
- *        description: Cliente no encontrado
+ *        description: Cliente no encontrado.
  *        content:
  *          application/json:
  *           schema:
@@ -154,7 +154,7 @@ router.get('/:id', getOrder);
  *                   type: string
  *             
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -162,9 +162,9 @@ router.get('/:id', getOrder);
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.get('/customer/:id', getOrdersByCustomer);
+router.get('/customer/:id', getOrdersByCustomer)
 
 /**
  * @openapi
@@ -209,7 +209,7 @@ router.get('/customer/:id', getOrdersByCustomer);
  *      
  *     responses:
  *      201:
- *        description: Se creo la orden exitosamente.
+ *        description: Se creó la orden exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -232,7 +232,7 @@ router.get('/customer/:id', getOrdersByCustomer);
  *                    type: number
  *                   
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -240,9 +240,9 @@ router.get('/customer/:id', getOrdersByCustomer);
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.post('/', createOrder);
+router.post('/', createOrder)
 
 /**
  * @openapi
@@ -250,8 +250,8 @@ router.post('/', createOrder);
  *  patch:
  *     tags:
  *     - Orders
- *     summary: Actualiza una orden .
- *     description: Actualiza una orden en la BBDD. 
+ *     summary: Actualiza una orden por su ID.
+ *     description: Actualiza una orden en la BBDD mediante su ID. 
  *     parameters:
  *      - name: id
  *        in: path
@@ -315,7 +315,7 @@ router.post('/', createOrder);
  *                       type: number
  *                   
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -323,9 +323,9 @@ router.post('/', createOrder);
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.patch('/:id', updateOrder);
+router.patch('/:id', updateOrder)
 
 /**
  * @openapi
@@ -333,8 +333,8 @@ router.patch('/:id', updateOrder);
  *  delete:
  *     tags:
  *     - Orders
- *     summary: Elimina una orden por id.
- *     description: Elimina una orden de la BD.
+ *     summary: Elimina una orden por su ID.
+ *     description: Elimina una orden de la BBDD mediante su ID.
  *     parameters:
  *      - name: id
  *        in: path
@@ -344,7 +344,7 @@ router.patch('/:id', updateOrder);
  *        required: false
  *     responses:
  *      200:
- *        description: Se elimino la orden exitosamente.
+ *        description: Se eliminó la orden exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -367,7 +367,7 @@ router.patch('/:id', updateOrder);
  *                    type: integer
  * 
  *      500:
- *        description: Error al eliminar la orden
+ *        description: Error al eliminar la orden.
  *        content:
  *          application/json:
  *           schema:
@@ -376,6 +376,6 @@ router.patch('/:id', updateOrder);
  *                   type: string
  */
 
-router.delete('/:id', deleteOrder);
+router.delete('/:id', deleteOrder)
 
-module.exports = router;
+module.exports = router

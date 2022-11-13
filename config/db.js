@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize')
 
 const Categories = require('../models/categories')
 const Customers = require('../models/customers')
@@ -31,8 +31,7 @@ const models = [
 ]
 
 for(let model of models){
-  model(sequelize);
+  model(sequelize)
 }
-//Relaciones
 
-module.exports = sequelize;
+module.exports = sequelize

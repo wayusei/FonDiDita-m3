@@ -1,8 +1,6 @@
-const router = require('express').Router();
+const router = require('express').Router()
 const { getProducts, getProduct, createProduct, updateProduct, deleteProduct } = require('../controllers/products')
-const {authenticateSeller} = require('../middlewares/authentication');
-const permission = require('../middlewares/permission');
-
+const {authenticateSeller} = require('../middlewares/authentication')
 
 /**
  * @openapi
@@ -10,13 +8,13 @@ const permission = require('../middlewares/permission');
  *  get:
  *     tags:
  *     - Products
- *     summary: Obtiene una lista de productos.
- *     description: Obtiene una lista de productos existentes en la BD.
+ *     summary: Obtiene La lista de productos.
+ *     description: Obtiene La lista de productos existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de productos exitosamente
+ *        description: Se obtuvo la lista de productos exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -39,7 +37,7 @@ const permission = require('../middlewares/permission');
  *                    type: number
  * 
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -47,9 +45,9 @@ const permission = require('../middlewares/permission');
  *                 message:
  *                   type: string
  *                 error:
- *                  type: string
+ *                   type: string
  */
-router.get('/', getProducts);
+router.get('/', getProducts)
 
 /**
  * @openapi
@@ -57,8 +55,8 @@ router.get('/', getProducts);
  *  get:
  *     tags:
  *     - Products
- *     summary: Obtiene un producto por id.
- *     description: Obtiene un producto por id de la BD.
+ *     summary: Obtiene un producto por su ID.
+ *     description: Obtiene un producto por su ID en la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
@@ -89,7 +87,7 @@ router.get('/', getProducts);
  *                    type: number
  * 
  *      404:
- *        description: Producto no encontrado
+ *        description: Producto no encontrado.
  *        content:
  *          application/json:
  *           schema:
@@ -97,7 +95,7 @@ router.get('/', getProducts);
  *                 message:
  *                   type: string
  */
-router.get('/:id', getProduct);
+router.get('/:id', getProduct)
 
 /**
  * @openapi
@@ -106,7 +104,7 @@ router.get('/:id', getProduct);
  *     tags:
  *     - Products
  *     summary: Crea un producto (requiere token).
- *     description: Crea un nuevo producto y lo agrega a la BD. Este módulo requiere autorización por lo que se neceistará copiar y pegar el token de la función de Customers/LogIn
+ *     description: Crea un nuevo producto y lo agrega a la BBDD. Este módulo requiere autorización por lo que se neceistará copiar y pegar el token de la función de Customers/LogIn.
  *     security:
  *        - bearerAuth: []
  *     requestBody:
@@ -151,7 +149,7 @@ router.get('/:id', getProduct);
  *                          example: 1
  *     responses:
  *      201:
- *        description: Se creo el producto exitosamente.
+ *        description: Se creó el producto exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -182,7 +180,7 @@ router.get('/:id', getProduct);
  *                          example: 1
  * 
  *      500:
- *        description: Error al crear el producto
+ *        description: Error al crear el producto.
  *        content:
  *          application/json:
  *           schema:
@@ -190,7 +188,7 @@ router.get('/:id', getProduct);
  *                 message:
  *                   type: string
  *      401:
- *        description: Sin autorización
+ *        description: Sin autorización.
  *        content: 
  *          application/json:
  *              schema:
@@ -198,7 +196,7 @@ router.get('/:id', getProduct);
  *                      message:
  *                          type: string
  */
- router.post('/', authenticateSeller, createProduct);
+ router.post('/', authenticateSeller, createProduct)
 
 /**
  * @openapi
@@ -206,8 +204,8 @@ router.get('/:id', getProduct);
  *  patch:
  *     tags:
  *     - Products
- *     summary: Actualiza un producto por id.
- *     description: Actualiza la información de un producto y lo agrega a la BD.
+ *     summary: Actualiza un producto por su ID.
+ *     description: Actualiza la información de un producto y lo agrega a la BBDD mediante su ID.
  *     parameters:
  *      - name: id
  *        in: path
@@ -247,7 +245,7 @@ router.get('/:id', getProduct);
  *                          type: integer
  *     responses:
  *      200:
- *        description: Se actualizo el producto exitosamente.
+ *        description: Se actualizó el producto exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -270,7 +268,7 @@ router.get('/:id', getProduct);
  *                    type: integer
  * 
  *      500:
- *        description: Error al actualizar el producto
+ *        description: Error al actualizar el producto.
  *        content:
  *          application/json:
  *           schema:
@@ -278,7 +276,7 @@ router.get('/:id', getProduct);
  *                 message:
  *                   type: string
  */
-router.patch('/:id', authenticateSeller, updateProduct);
+router.patch('/:id', authenticateSeller, updateProduct)
 
 /**
  * @openapi
@@ -286,8 +284,8 @@ router.patch('/:id', authenticateSeller, updateProduct);
  *  delete:
  *     tags:
  *     - Products
- *     summary: Elimina un producto por id.
- *     description: Elimina un producto de la BD.
+ *     summary: Elimina un producto por su ID.
+ *     description: Elimina un producto de la BBDD.
  *     parameters:
  *      - name: id
  *        in: path
@@ -297,7 +295,7 @@ router.patch('/:id', authenticateSeller, updateProduct);
  *        required: false
  *     responses:
  *      200:
- *        description: Se elimino el producto exitosamente.
+ *        description: Se eliminó el producto exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -320,7 +318,7 @@ router.patch('/:id', authenticateSeller, updateProduct);
  *                    type: integer
  * 
  *      500:
- *        description: Error al eliminar el producto
+ *        description: Error al eliminar el producto.
  *        content:
  *          application/json:
  *           schema:
@@ -328,6 +326,6 @@ router.patch('/:id', authenticateSeller, updateProduct);
  *                 message:
  *                   type: string
  */
-router.delete('/:id', authenticateSeller, deleteProduct);
+router.delete('/:id', authenticateSeller, deleteProduct)
 
-module.exports = router;
+module.exports = router
