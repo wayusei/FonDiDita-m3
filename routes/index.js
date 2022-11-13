@@ -3,8 +3,8 @@ const router = require('express').Router();
 const sellers = require('./sellers');
 const products = require('./products');
 const categories = require('./categories');
-/* const orders = require('./orders');
-const orders_details = require('./orders_details');
+const orders = require('./orders');
+/*const orders_details = require('./orders_details');
 const order_status = require('./order_status');
  */
 router.get('/', (req, res) => {
@@ -15,7 +15,7 @@ router.use('/customers', customers);
 router.use('/sellers', sellers);
 router.use('/products', products);
 router.use('/categories', categories);
-router.use('/orders', orders);
+
 router.use('/orders_details', orders_details);
 router.use('/order_status', order_status);
 
@@ -24,5 +24,6 @@ router.use('/order_status', order_status);
 router.use('/sellers', sellers);
 router.use('/products', products);
 router.use('/categories', categories);
+router.use('/orders', orders);
 
 module.exports = router;
