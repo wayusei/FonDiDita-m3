@@ -28,25 +28,6 @@ async function getCustomerbyId(req, res) {
     }
 }
 
-/**
- * Crea un nuevo cliente y lo inserta a la BBDD
- * @param {*} req 
- * @param {*} res 
- */
-async function insertCustomer(req, res) {
-    const { body } = req.body
-    const newCustomer = await sequelize.models.customers.create({
-        username: body.username,
-        email: body.email,
-        password: body.password,
-        full_name: body.full_name,
-        billing_address: body.billing_address,
-        default_shipping_address: body.default_shipping_address,
-        phone: body.phone
-    })
-    await newCustomer.save()
-    return res.status(201).json({ data: newCustomer })
-}
 
 /**
  * Permite registrar a un cliente
@@ -57,7 +38,7 @@ async function insertCustomer(req, res) {
 async function signUp(req, res) {
     const { body } = req
     try{
-        const cus = await sequelize.models.customers.findOne({ where: {username: body.username }})
+        let cus = await sequelize.models.customers.findOne({ where: {username: body.username }})
         if(cus){
             return res.status(400).json({ message: 'Usuario ya registrado'})
         } else {
@@ -121,7 +102,6 @@ async function deleteCustomer(req, res) {
 module.exports = {
     getCustomers,
     getCustomerbyId,
-    insertCustomer,
     signUp,
     logIn,
     deleteCustomer,

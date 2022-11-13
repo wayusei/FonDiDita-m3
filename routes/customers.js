@@ -1,15 +1,13 @@
 const router = require('express').Router();
 
 
-/* const {
+ const {
     getCustomers,
     getCustomerbyId,
-    insertCustomer,
     signUp,
     logIn,
     deleteCustomer,
-} = require('../controllers/customers'); */
-//const auth = require('../config/auth');
+} = require('../controllers/customers'); 
 
 /**
  * @openapi
@@ -58,7 +56,7 @@ const router = require('express').Router();
  *                 error:
  *                  type: string
  */
-//router.get('/', getCustomers);
+router.get('/', getCustomers);
 
 
 /**
@@ -109,112 +107,7 @@ const router = require('express').Router();
  *                 message:
  *                   type: string
  */
-//router.get('/getbyId/:id', getCustomerbyId);
-
-
-/**
- * @openapi
- * '/customers/insert':
- *   post:
- *     tags:
- *     - Customers
- *     summary: Crea un nuevo cliente (requiere login de admin).
- *     description: Crea un nuevo cliente y lo inserta en la BD, sin encriptar el password. (username admin, contraseña 1234)
- *     security:
- *        - bearerAuth: []
- *     requestBody:
- *        required: true
- *        content:
- *            application/json:
- *              schema:
- *                  type: object
- *                  required:
- *                    - id
- *                    - username
- *                    - email
- *                    - password
- *                    - full_name
- *                    - billing_address
- *                    - default_shipping_address
- *                    - phone
- *                  properties:
- *                   id:
- *                      type: number
- *                      example: 1
- *                   username:
- *                       type: string
- *                       example: user1
- *                   email:
- *                       type: string
- *                       example: mail@mail.com
- *                   password:
- *                      type: string
- *                      example: 1234
- *                   full_name:
- *                       type: string
- *                       example: Fulanito de Tal
- *                   billing_address:
- *                       type: string
- *                       example: Calle 1
- *                   default_shipping_address:
- *                       type: string
- *                       example: Calle 22
- *                   phone:
- *                       type: string
- *                       example: 12345678
- *     responses:
- *      201:
- *        description: Se creo el cliente exitosamente.
- *        content:
- *          application/json:
- *            schema:
- *                  properties:
- *                      id:
- *                          type: number
- *                          example: 1
- *                      username:
- *                          type: string
- *                          example: user1
- *                      email:
- *                          type: string
- *                          example: mail@mail.com
- *                      password_hash:
- *                          type: string
- *                          example: 1234
- *                      full_name:
- *                          type: string
- *                          example: Fulanito de Tal
- *                      billing_address:
- *                          type: string
- *                          example: Calle 1
- *                      default_shipping_address:
- *                          type: string
- *                          example: Calle 22
- *                      phone:
- *                          type: string
- *                          example: 12345678
- *                      password_salt:
- *                          type: string
- *                          example: 1234
- * 
- *      500:
- *        description: Error al crear el cliente
- *        content:
- *          application/json:
- *           schema:
- *              properties:
- *                 message:
- *                   type: string
- *      401:
- *        description: Sin autorización
- *        content: 
- *          application/json:
- *              schema:
- *                  properties:
- *                      message:
- *                          type: string
- */
-//router.post('/insert',auth.isAdmin, insertCustomer);
+router.get('/getbyId/:id', getCustomerbyId);
 
 
 /**
@@ -312,7 +205,7 @@ const router = require('express').Router();
  *                   type: string
  
  */
-//router.post('/signUp', signUp);
+router.post('/signUp', signUp);
 
 
 
@@ -366,7 +259,7 @@ const router = require('express').Router();
  *                 error:
  *                  type: string
  */
-//router.post('/logIn', logIn);
+router.post('/logIn', logIn);
 
 /**
  * @openapi
@@ -400,7 +293,7 @@ const router = require('express').Router();
  *                 message:
  *                   type: string
  */
-//router.delete('/deleteCustomer/:id',auth.isAdmin, deleteCustomer);
+router.delete('/deleteCustomer/:id', deleteCustomer);
 
 
 
