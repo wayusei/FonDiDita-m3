@@ -1,4 +1,3 @@
-const OrderStatus = require('../models/order_status');
 const sequelize = require('../config/db');
 
 /**

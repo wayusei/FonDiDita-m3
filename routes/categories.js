@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require('../controllers/categories')
-const authentication = require('../middlewares/authentication');
+const {authenticateSeller} = require('../middlewares/authentication');
 
 /**
  * @openapi
@@ -135,7 +135,7 @@ router.get('/:id', getCategory);
  *                 message:
  *                   type: string
  */
-router.post('/', authentication, createCategory);
+router.post('/', authenticateSeller, createCategory);
 
 /**
  * @openapi
@@ -193,7 +193,7 @@ router.post('/', authentication, createCategory);
  *                 message:
  *                   type: string
  */
-router.patch('/:id', authentication, updateCategory);
+router.patch('/:id', authenticateSeller, updateCategory);
 
 /**
  * @openapi
@@ -230,6 +230,6 @@ router.patch('/:id', authentication, updateCategory);
  *                 message:
  *                   type: string
  */
-router.delete('/:id', authentication, deleteCategory);
+router.delete('/:id', authenticateSeller, deleteCategory);
 
 module.exports = router;
