@@ -1,6 +1,5 @@
-const { Sequelize ,DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-
+const { Sequelize ,DataTypes } = require('sequelize')
+const sequelize = require('../config/db')
 
 module.exports = (sequelize) => sequelize.define('orders_details', {
     id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -26,4 +25,4 @@ module.exports = (sequelize) => sequelize.define('orders_details', {
 {
     freezeTableName: true,
     timestamps: false
-});
+})

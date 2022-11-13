@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const { getOrderStatus, getOrderStatusById, updateOrderStatus,deleteOrderStatus } = require('../controllers/order_status')
+const router = require('express').Router()
+const { getOrderStatus, getOrderStatusById } = require('../controllers/order_status')
 
 /**
  * @openapi
@@ -7,13 +7,13 @@ const { getOrderStatus, getOrderStatusById, updateOrderStatus,deleteOrderStatus 
  *  get:
  *     tags:
  *     - Order Status
- *     summary: Obtiene la lista de estatus de ordenes.
- *     description: Obtiene la lista de estatus de ordenes existentes en la BD.
+ *     summary: Obtiene la lista de estatus de órdenes.
+ *     description: Obtiene la lista de estatus de órdenes existentes en la BBDD.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo la lista de estatus de ordenes exitosamente
+ *        description: Se obtuvo la lista de estatus de órdenes exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -26,7 +26,7 @@ const { getOrderStatus, getOrderStatusById, updateOrderStatus,deleteOrderStatus 
  *                          type: string
  * 
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -36,7 +36,7 @@ const { getOrderStatus, getOrderStatusById, updateOrderStatus,deleteOrderStatus 
  *                 error:
  *                  type: string
  */
-router.get('/', getOrderStatus);
+router.get('/', getOrderStatus)
 
 /**
  * @openapi
@@ -44,13 +44,13 @@ router.get('/', getOrderStatus);
  *  get:
  *     tags:
  *     - Order Status
- *     summary: Obtiene el estatus de una orden mediante su id.
- *     description: Obtiene el estatus de orden existente en la BD mediante su id.
+ *     summary: Obtiene el estatus de una orden mediante su ID.
+ *     description: Obtiene el estatus de orden existente en la BBDD mediante su ID.
  *     requestBody:
  *      required: false
  *     responses:
  *      200:
- *        description: Se obtuvo el estatus de orden exitosamente
+ *        description: Se obtuvo el estatus de orden exitosamente.
  *        content:
  *          application/json:
  *            schema:
@@ -63,7 +63,7 @@ router.get('/', getOrderStatus);
  *                          type: string
  *                  
  *      500:
- *        description: Internal server error
+ *        description: Internal server error.
  *        content:
  *          application/json:
  *           schema:
@@ -73,6 +73,6 @@ router.get('/', getOrderStatus);
  *                 error:
  *                  type: string
  */
- router.get('/:id', getOrderStatusById);
+ router.get('/:id', getOrderStatusById)
 
-module.exports = router;
+module.exports = router

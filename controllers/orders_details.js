@@ -19,11 +19,11 @@ async function getOrdersDetails(req, res) {
  */
 async function getOrdersDetailByProduct(req, res) {
     const id = req.params.id;
-    const ordersDetailsByProduct = await sequelize.models.orders_details.findAll({where: {product_id: id}});
+    const ordersDetailsByProduct = await sequelize.models.orders_details.findAll({where: {product_id: id}})
     if(!ordersDetailsByProduct){
-        return res.status(404).json({message: "Producto no tiene ordenes"});
+        return res.status(404).json({message: "Producto no tiene ordenes"})
     }
-    res.status(200).json(orders);    
+    res.status(200).json(orders)
 }
 
 /**
@@ -33,25 +33,26 @@ async function getOrdersDetailByProduct(req, res) {
  * @returns 
  */
  async function getOrdersDetailByOrderId(req, res) {
-    const id = req.params.id;
-    const ordersDetailsByOrderId = await sequelize.models.orders_details.findAll({where: {order_id: id}});
+    const id = req.params.id
+    const ordersDetailsByOrderId = await sequelize.models.orders_details.findAll({where: {order_id: id}})
     if(!ordersDetailsByOrderId){
-        return res.status(404).json({message: "Detalle de orden no encontrada"});
+        return res.status(404).json({message: "Detalle de orden no encontrada"})
     }
-    res.status(200).json(ordersDetailsByOrderId);    
+    res.status(200).json(ordersDetailsByOrderId)
 }
+
 /**
  * Obtiene detalles de una orden mediante el id de una orden
  * @param {*} req 
  * @param {*} res 
  */
 async function getOrdersDetailsById(req, res) {
-    const id = req.params.id;
-    const orderDetail = await sequelize.models.orders_details.findByPk(id);
+    const id = req.params.id
+    const orderDetail = await sequelize.models.orders_details.findByPk(id)
     if(!orderDetail){
-        return res.status(404).json({message: "Detalle de orden no encontrada"});
+        return res.status(404).json({message: "Detalle de orden no encontrada"})
     }
-    res.status(200).json(orderDetail);
+    res.status(200).json(orderDetail)
 }
 
 /**
@@ -60,7 +61,7 @@ async function getOrdersDetailsById(req, res) {
  * @param {*} res 
  */
 async function createOrderDetail(req, res) {
-    const { body } = req.body;
+    const { body } = req.body
     const order_id = await sequelize.models.orders.findOne({
         where: {id: body.order_id}
     })
@@ -116,4 +117,4 @@ async function deleteOrderDetail(req, res) {
     return res.status(200).json(deletedDetail)
 }
 
-module.exports = { getOrdersDetails, getOrdersDetailByProduct, getOrdersDetailByOrderId, getOrdersDetailsById, createOrderDetail, updateOrderDetails, deleteOrderDetail };
+module.exports = { getOrdersDetails, getOrdersDetailByProduct, getOrdersDetailByOrderId, getOrdersDetailsById, createOrderDetail, updateOrderDetails, deleteOrderDetail }

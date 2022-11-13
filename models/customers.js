@@ -1,5 +1,5 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const bcrypt = require('bcrypt');
+const { Sequelize, DataTypes} = require('sequelize')
+const bcrypt = require('bcrypt')
 
 module.exports = (sequelize) => {
     const Customers = sequelize.define('customers', {
@@ -20,11 +20,10 @@ module.exports = (sequelize) => {
               user.password = bcrypt.hashSync(user.password, salt)
             }
         }
-    });
+    })
 
     Customers.prototype.validPassword = function (password) {
         return bcrypt.compareSync(password, this.password)
     }
-    
     return Customers;
 }

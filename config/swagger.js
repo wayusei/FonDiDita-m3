@@ -22,7 +22,7 @@ const options = {
             },
           ],
     },
-    server: "localhost:3000/",
+    server: "https://fondidita-m3-production.up.railway.app:3000/",
     apis: ["./routes/*.js"]
 }
 module.exports = options

@@ -1,5 +1,4 @@
-const sequelize = require('../config/db');
-
+const sequelize = require('../config/db')
 
 /**
  * Obtiene una lista de categorias
@@ -19,11 +18,11 @@ async function getCategories(req, res) {
  */
 async function getCategory(req, res) {
     const id = req.params.id;
-    const category = await sequelize.models.categories.findOne({where: {id}});
+    const category = await sequelize.models.categories.findOne({where: {id}})
     if (!category) {
-        return res.status(404).json({ message: "Categoria no encontrada" });
+        return res.status(404).json({ message: "Categoria no encontrada" })
     }
-    return res.status(201).json({ data: category });
+    return res.status(201).json({ data: category })
 }
 
 /**
@@ -48,15 +47,15 @@ async function createCategory(req, res) {
  */
 async function updateCategory(req, res) {
     const { body, params: { id } } = req;
-    const category = await sequelize.models.categories.findByPk(id);
+    const category = await sequelize.models.categories.findByPk(id)
     if (!category) {
-        return res.status(404).json({ code:404, message: 'Category not found' });
+        return res.status(404).json({ code:404, message: 'Category not found' })
     }
     const updateCategory = await category.update({
         name: body.name,
         description: body.description
     });
-    return res.json({ data: updateCategory });
+    return res.json({ data: updateCategory })
 }
 
 /**
@@ -65,13 +64,13 @@ async function updateCategory(req, res) {
  * @param {*} res 
  */
 async function deleteCategory(req, res) {
-    const { params: {id} } = req;
-    const category = await sequelize.models.categories.findByPk(id);
+    const { params: {id} } = req
+    const category = await sequelize.models.categories.findByPk(id)
     if (!category) {
-        return res.status(404).json({ code:404, message: 'Category not found' });
+        return res.status(404).json({ code:404, message: 'Category not found' })
     }
-    await category.destroy();
-    return res.json();
+    await category.destroy()
+    return res.json()
 }
 
-module.exports = { getCategories, getCategory, createCategory, updateCategory, deleteCategory };
+module.exports = { getCategories, getCategory, createCategory, updateCategory, deleteCategory }
