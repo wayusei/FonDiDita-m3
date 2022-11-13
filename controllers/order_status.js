@@ -1,5 +1,5 @@
-const OrderStatus = require('../models/order_status');
-
+//const OrderStatus = require('../models/order_status');
+const sequelize = require('../config/db');
 
 /**
  * Obtiene una lista de los estatus de orden
@@ -8,7 +8,7 @@ const OrderStatus = require('../models/order_status');
  */
 async function getOrderStatus(req, res) {
     try {
-        const orderStatuses = await OrderStatus.findAll();
+        const orderStatuses = await sequelize.models.order_status.findAll();
         res.status(200).json(orderStatuses);
 
     } catch (error) {
@@ -27,7 +27,7 @@ async function getOrderStatus(req, res) {
  */
 async function getOrderStatusById(req, res) {
     const id = req.params.id;
-    const orderStatus = await OrderStatus.findByPk(id);
+    const orderStatus = await sequelize.models.order_status.findByPk(id);
     if (!orderStatus) {
         return res.status(404).json({ message: "Estatus de orden no encontrado" });
     }
@@ -42,7 +42,7 @@ async function getOrderStatusById(req, res) {
 async function createOrderStatus(req, res) {
 
     const body = req.body;
-    await OrderStatus.create(body).then(orderStatus => {
+    await sequelize.models.order_status.create(body).then(orderStatus => {
         res.status(201).json(orderStatus);
     }).catch(function(error){
         console.log(error);
@@ -60,8 +60,8 @@ async function createOrderStatus(req, res) {
 async function updateOrderStatus(req, res) {
     const id = req.params.id;
     const orderStatus = req.body;
-    await OrderStatus.update(orderStatus, {where: {id}});
-    const orderStatus_updated = await OrderStatus.findByPk(id);
+    await sequelize.models.order_status.update(orderStatus, {where: {id}});
+    const orderStatus_updated = await sequelize.models.order_status.findByPk(id);
     res.status(200).json(orderStatus_updated);
 }
 
@@ -72,7 +72,7 @@ async function updateOrderStatus(req, res) {
  */
 async function deleteOrderStatus(req, res) {
     const id = req.params.id;
-    const deletedOrderStatus = OrderStatus.destroy(
+    const deletedOrderStatus = sequelize.models.order_status.destroy(
         {where: {id} }
     );
     res.status(200).json(deletedOrderStatus);

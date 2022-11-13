@@ -6,7 +6,7 @@ const sequelize = require('../config/db')
  * @param {*} res 
  */
 async function getOrdersDetails(req, res) {
-    return await sequelize.models.Orders_Details.findAll()
+    return await sequelize.models.orders_details.findAll()
         .then(data => res.json(data))
         .catch(err => res.json({message: 'Error', data: err}))
 }
@@ -19,7 +19,7 @@ async function getOrdersDetails(req, res) {
  */
 async function getOrdersDetailByProduct(req, res) {
     const id = req.params.id;
-    const ordersDetailsByProduct = await sequelize.models.Orders_Details.findAll({where: {product_id: id}});
+    const ordersDetailsByProduct = await sequelize.models.orders_details.findAll({where: {product_id: id}});
     if(!ordersDetailsByProduct){
         return res.status(404).json({message: "Producto no tiene ordenes"});
     }
@@ -34,7 +34,7 @@ async function getOrdersDetailByProduct(req, res) {
  */
  async function getOrdersDetailByOrderId(req, res) {
     const id = req.params.id;
-    const ordersDetailsByOrderId = await sequelize.models.Orders_Details.findAll({where: {order_id: id}});
+    const ordersDetailsByOrderId = await sequelize.models.orders_details.findAll({where: {order_id: id}});
     if(!ordersDetailsByOrderId){
         return res.status(404).json({message: "Detalle de orden no encontrada"});
     }
@@ -47,7 +47,7 @@ async function getOrdersDetailByProduct(req, res) {
  */
 async function getOrdersDetailsById(req, res) {
     const id = req.params.id;
-    const orderDetail = await sequelize.models.Orders_Details.findByPk(id);
+    const orderDetail = await sequelize.models.orders_details.findByPk(id);
     if(!orderDetail){
         return res.status(404).json({message: "Detalle de orden no encontrada"});
     }
@@ -70,7 +70,7 @@ async function createOrderDetail(req, res) {
     if(!order_id) { return res.status(404).json({ message: 'No se encontró el ID de orden'})}
     if(!product_id) { return res.status(404).json({ message: 'No se encontró el ID de producto'})}
     
-    const orderdetail = await sequelize.models.Orders_Details.create({
+    const orderdetail = await sequelize.models.orders_details.create({
         order_id: body.order_id,
         product_id: body.product_id,
         price: body.price,
@@ -92,7 +92,7 @@ async function updateOrderDetails(req, res) {
     if(!order_id) { return res.status(404).json({ message: 'No se encontró el ID de orden'})}
     if(!product_id) { return res.status(404).json({ message: 'No se encontró el ID de producto'})}
     
-    const orderdetailupdate = await sequelize.models.Orders_Details.update({
+    const orderdetailupdate = await sequelize.models.orders_details.update({
         order_id: body.order_id,
         product_id: body.product_id,
         price: body.price,
@@ -108,7 +108,7 @@ async function updateOrderDetails(req, res) {
  */
 async function deleteOrderDetail(req, res) {
     const { params: {id} } = req
-    const deletedDetail = await sequelize.models.Orders_Details.findOne({where: {id} })
+    const deletedDetail = await sequelize.models.orders_details.findOne({where: {id} })
     if (!deletedDetail){
         return res.status(404).json({ code: 404, message: 'Detalle de orden no encontrado' })
     }
