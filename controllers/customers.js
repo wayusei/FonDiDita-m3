@@ -1,74 +1,121 @@
-const Customers = require('../models/customers');
+const sequelize = require('../config/db');
+const jwt = require('jsonwebtoken')
 
-
+/**
+ * Obtiene la lista de clientes
+ * @param {*} req 
+ * @param {*} res 
+ */
 async function getCustomers(req, res) {
-    const customers = await Customers.findAll();
-    res.status(200).json(customers);    
+    return await sequelize.models.customers.findAll()
+        .then(data => res.json(data))
+        .catch(err => res.json({message: 'Error', data: err}))
 }
 
+/**
+ * Obtiene un cliente por su ID
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function getCustomerbyId(req, res) {
     const id = req.params.id;
-    
-    const cus = await Customers.findByPk(id);   
-    if(cus==null){
-        res.status(404).json({"error":"Cliente no encontrado"});
+    const cus = await sequelize.models.customers.findByPk(id);   
+    if(!cus){
+        return res.status(404).json({message: "Cliente no encontrado"});
     }else{
         res.status(200).json(cus);
     }
-    
 }
 
-function insertCustomer(req, res) {
-    const body = req.body;
-    Customers.create(body).then(customer => {
-        res.status(201).json(customer);
-    });
+/**
+ * Crea un nuevo cliente y lo inserta a la BBDD
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function insertCustomer(req, res) {
+    const { body } = req.body
+    const newCustomer = await sequelize.models.customers.create({
+        username: body.username,
+        email: body.email,
+        password: body.password,
+        full_name: body.full_name,
+        billing_address: body.billing_address,
+        default_shipping_address: body.default_shipping_address,
+        phone: body.phone
+    })
+    await newCustomer.save()
+    return res.status(201).json({ data: newCustomer })
 }
 
+/**
+ * Permite registrar a un cliente
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function signUp(req, res) {
-    const body = req.body;
-    try { 
-        const cus = await Customers.create(body);
-        const {salt, hash} = Customers.createPassword(body['password']);
-        cus.password_salt = salt;
-        cus.password_hash = hash;
-        await cus.save();
-        res.status(201).json(cus);
-    } catch (err) {
-        if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name) ) {
-            return res.status(400).json({
-                error: err.errors.map(e => e.message)
+    const { body } = req
+    try{
+        const cus = await sequelize.models.customers.findOne({ where: {username: body.username }})
+        if(cus){
+            return res.status(400).json({ message: 'Usuario ya registrado'})
+        } else {
+            if(body.username=="" || body.email=="" || body.password=="" || body.full_name=="" || body.billing_address=="" || body.default_shipping_address==""){
+                return res.status(400).json({ message: 'Por favor completa los campos vacíos'})
+            }
+            cus = await sequelize.models.customers.create({
+                username: body.username,
+                email: body.email,
+                password: body.password,
+                full_name: body.full_name,
+                billing_address: body.billing_address,
+                default_shipping_address: body.default_shipping_address,
+                phone: body.phone
             })
+            await cus.save()
+            return res.status(400).json({ data: cus, message: "Se ha creado exitosamente la cuenta de cliente"})
         }
-        else {
-            throw err;
+    } catch (err) {
+        if(["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name)){
+            return res.status(400).json({ error: err.errors.map(e=> e.message) })
+        } else { 
+            throw err 
         }
     }
 }
-
+/**
+ * Función que permite iniciar sesión a un cliente
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function logIn(req, res) {
-    const body = req.body;
-    const cus = await Customers.findOne({where: {username: body['username']}});
-    if (!cus) {
-        return res.status(404).json({error: "User not found"});
+    const { body } = req
+    const cus =  await sequelize.models.customers.findOne({ where: {email: body['email']}})
+    if(!cus){
+        return res.status(404).json({error: "Cliente no encontrado"})
     }
-    if (Customers.validatePassword(body['password'], cus.password_salt, cus.password_hash)) {
-        return res.status(200).json({
-            username: cus.username,
-            email: cus.email,
-            token: Customers.generateJWT(cus)
-        }); 
-    } else {
-        return res.status(400).json({mensaje: "Password Incorrecto"});
+    if(!cus.validPassword(body['password'])){
+        return res.status(401).json({ message: 'Password incorrecto!'})
     }
+    const token = jwt.sign({ customerId: cus.id }, 'secretKey', { expiresIn: 3600})
+    
+    return res.status(200).json({ message: "Ha ingresado correctamente!", token })
 }
 
+/**
+ * Función que elimina un cliente
+ */
 async function deleteCustomer(req, res) {
     const id = req.params.id;
-    const deleted = Customers.destroy(
+    const deleted = await sequelize.models.customers.destroy(
         {where: {id} }
-    );
-    res.status(200).json({"message":"Usuario eliminado"});
+    )
+    if(!deleted) {
+        return res.status(404).json({ error: "Cliente no encontrado" })
+    }
+    return res.status(200).json({"message":"Cliente eliminado exitosamente", deleted})
 }
 
 module.exports = {
