@@ -1,6 +1,6 @@
-# FonDiDita
+# FonDiDita v 2.0
 
-*Evaluación del módulo Backend Fundamentals, Desarrollo Web | Santander Universidades*
+*Evaluación del módulo 1 Fase3 - Backend Fundamentals, Desarrollo Web | Santander Universidades*
 
 ## Entregables Postwork 1
 
@@ -21,7 +21,9 @@ Se generó una imagen utilizando el app Terrastruct (https://app.terrastruct.com
 
  Herramientas utilizadas: ¿Qué son y para qué sirven?
 
- - PostgreSQL: Es un sistema de código abierto de administraciòn de bases de datos del tipo relacional y no relacional, gratuito con data types avanzados y permite ejecutar optimizaciones de rendimiento avanzadas como si fuera un sistema de base de datos comercial.
+ - MySQL: es un sistema de gestión de bases de datos relacional basada en código abierto. Es uno de los gestores de base de datos de uso más extendido.
+
+MySQL es un sistema de gestión de bases de datos que cuenta con una doble licencia. Por una parte es de código abierto, pero por otra, cuenta con una versión comercial gestionada por la compañía Oracle.
   
  - JavaScript: Es un lenguaje de programaciòn ligero, interpretado, o compilado ‘justo-a-tiempo’ (just-in-time) con funciones de primera clase, basado en prototipos, multiparadigma, de un solo hilo, dinámico, con soporte para POO, imperativa y declarativa.Sirve para scripting en páginas web, en entornos fuera del navegador como Node.js, Apache CouchDB y Adobe Acrobat.
   
@@ -35,7 +37,7 @@ Se generó una imagen utilizando el app Terrastruct (https://app.terrastruct.com
   
  - Github: Es un portal creado para alojar el código de las aplicaciones de cualquier desarrollador que utiliza el sistema de control de versiones Git, es multiplataforma y tiene multitud de interfaces de usuario, sirve para que los desarrolladores suban el código de sus aplicaciones y herramientas.
   
- - Heroku: Es una plataforma de servicios en la nube (PaaS, Platform as a Service) que permite manejar los servidores y sus configuraciones, escalamiento y la administración.
+ - Railway app: Railway es una plataforma de deployment dónde puedes tener acceso a infraestructira, desarrollar localmente y hacer deploy en la nube
   
  - Además utilizamos para comunicarnos la plataforma de videoconferencias Zoom, la aplicación de mensajería instantánea WhatsApp, la aplicación Trello y la plataforma Google Drive para mediante un documento compartido apoyarnos a la redacción de este documento.
 
