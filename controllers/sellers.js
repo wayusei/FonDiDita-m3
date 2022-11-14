@@ -87,7 +87,7 @@ async function signUpSeller(req, res) {
                 account: body.account
             })
             await seller.save()
-            return res.status(400).json({ data: seller, message:"Se ha creado la cuenta de seller exitosamente." })
+            return res.status(201).json({ data: seller, message:"Se ha creado la cuenta de seller exitosamente." })
         }
     } catch (err) {
         if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(err.name) ) {
